@@ -27,4 +27,4 @@ COPY cypress ./cypress
 COPY link.sh .
 RUN ./link.sh
 
-CMD cypress run
+CMD cypress run --config video=false
