@@ -1,0 +1,9 @@
+{
+  "name": "cypress-lambda",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "hi@stuartsandine.com",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {}
+}
