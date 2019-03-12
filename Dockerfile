@@ -1,8 +1,5 @@
 from lambci/lambda:build-nodejs8.10
 
-# FIXME not global ok
-RUN npm install -g cypress
-
 WORKDIR /app 
 
 RUN yum -y install wget
@@ -21,10 +18,14 @@ RUN ./eltool.sh gtk-compile  # this will take 3 minutes on t2.small instance
 RUN ./eltool.sh gtk-install 
 RUN ./eltool.sh xvfb-install 
 
+COPY package.json .
+COPY package-lock.json .
+RUN npm install
+
 COPY cypress.json .
 COPY cypress ./cypress
 
 COPY link.sh .
 RUN ./link.sh
 
-CMD cypress run --config video=false
+CMD npx cypress run --config video=false

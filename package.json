@@ -5,5 +5,7 @@
   "author": "hi@stuartsandine.com",
   "license": "MIT",
   "private": false,
-  "dependencies": {}
+  "dependencies": {
+    "cypress": "^3.1.5"
+  }
 }
