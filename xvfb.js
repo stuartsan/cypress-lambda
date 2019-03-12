@@ -29,7 +29,7 @@ function Xvfb(options) {
   this._silent = options.silent;
 //   this._xvfb_args = options.xvfb_args || ['-nolisten', 'tcp' ,'-xkbdir', '/tmp/app/modules/xvfb/xkb']; // I have to merge them, not replace them...
 //   this._xvfb_args = options.xvfb_args || ['-nolisten', 'tcp' ,'-xkbdir', '/var/task/modules/xvfb/xkb']; // I have to merge them, not replace them...
-  this._xvfb_args = options.xvfb_args || ['-nolisten', 'tcp' ,'-xkbdir', '/tmp/pck/xkb'];
+  this._xvfb_args = options.xvfb_args || ['-nolisten', 'tcp' ,'-nolisten', 'unix', '-xkbdir', `${__dirname}/lib/xkb`];
   this._xvfb_executable = options.xvfb_executable || './Xvfb';
   this._dry_run = options.dry_run || false;
 }
