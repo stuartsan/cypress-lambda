@@ -28,4 +28,8 @@ COPY cypress ./cypress
 COPY link.sh .
 RUN ./link.sh
 
+# https://unix.stackexchange.com/a/315172 LMAO
+COPY xkb-compile.sh .
+RUN ./xkb-compile.sh
+
 CMD npx cypress run --config video=false
