@@ -30,7 +30,7 @@ function Xvfb(options) {
 //   this._xvfb_args = options.xvfb_args || ['-nolisten', 'tcp' ,'-xkbdir', '/tmp/app/modules/xvfb/xkb']; // I have to merge them, not replace them...
 //   this._xvfb_args = options.xvfb_args || ['-nolisten', 'tcp' ,'-xkbdir', '/var/task/modules/xvfb/xkb']; // I have to merge them, not replace them...
   this._xvfb_args = options.xvfb_args || ['-nolisten', 'tcp' ,'-xkbdir', '/tmp/pck/xkb'];
-  this._xvfb_executable = options.xvfb_executable || 'Xvfb';
+  this._xvfb_executable = options.xvfb_executable || './Xvfb';
   this._dry_run = options.dry_run || false;
 }
 
@@ -183,7 +183,7 @@ Xvfb.prototype = {
       // console.log(`Xvfb exec command: [${cmd}]`);
 
       var newEnv = deepClone(process.env);
-      newEnv.LD_LIBRARY_PATH = '/tmp/pck:' + newEnv.LD_LIBRARY_PATH;
+      newEnv.LD_LIBRARY_PATH = `${__dirname}/lib:${newEnv.LD_LIBRARY_PATH}`;
       console.log('New env: ', newEnv);
       this._process = spawn(this._xvfb_executable, args, { env: newEnv });
       // this._process = exec(cmd);
