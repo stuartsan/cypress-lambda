@@ -50,7 +50,7 @@ To do that.
 
 ## Invoke Lambda handler locally
 
-We need to get those things IN there now:
+We need to get those things IN there now and execute invoke the handler:
 
 ```
 docker run --rm -v "$PWD":/var/task lambci/lambda:nodejs8.10

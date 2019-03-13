@@ -38,5 +38,8 @@ docker cp -L cypress-lambda:/root/.cache/Cypress/3.1.5/Cypress/ ./tmp
 cp -R tmp/* lib/
 rm -rf tmp
 
+echo 'tarring up the lib...'
+GZIP=-9 tar cvzf lib.tar.gz lib/
+rm -rf lib/
 
 echo 'done'

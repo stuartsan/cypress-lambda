@@ -1,17 +1,17 @@
 /**
  * This is code by @Rob--W from https://github.com/Rob--W/node-xvfb/blob/master/index.js
- * 
+ *
  */
-var fs = require('fs');
-var path = require('path');
-var spawn = require('child_process').spawn;
-var exec  = require('child_process').exec;
+var fs = require("fs");
+var path = require("path");
+var spawn = require("child_process").spawn;
+var exec = require("child_process").exec;
 fs.exists = fs.exists || path.exists;
 fs.existsSync = fs.existsSync || path.existsSync;
 
 var usleep;
 try {
-  usleep = require('sleep').usleep;
+  usleep = require("sleep").usleep;
 } catch (e) {
   usleep = function(microsecs) {
     // Fall back to busy loop.
@@ -20,60 +20,72 @@ try {
   };
 }
 
-
 function Xvfb(options) {
   options = options || {};
-  this._display = (options.displayNum ? ':' + options.displayNum : null);
+  this._display = options.displayNum ? ":" + options.displayNum : null;
   this._reuse = options.reuse;
   this._timeout = options.timeout || 500;
   this._silent = options.silent;
-//   this._xvfb_args = options.xvfb_args || ['-nolisten', 'tcp' ,'-xkbdir', '/tmp/app/modules/xvfb/xkb']; // I have to merge them, not replace them...
-//   this._xvfb_args = options.xvfb_args || ['-nolisten', 'tcp' ,'-xkbdir', '/var/task/modules/xvfb/xkb']; // I have to merge them, not replace them...
-  this._xvfb_args = options.xvfb_args || ['-nolisten', 'tcp' ,'-nolisten', 'unix', '-xkbdir', '/var/task/lib/xkb', '+extension', 'RANDR'];
-  this._xvfb_executable = options.xvfb_executable || './Xvfb';
+  this._xvfb_args = options.xvfb_args || [
+    "-nolisten",
+    "tcp",
+    "-nolisten",
+    "unix",
+    "-xkbdir",
+    "/tmp/lib/xkb",
+    "+extension",
+    "RANDR"
+  ];
+  this._xvfb_executable = options.xvfb_executable || "./Xvfb";
   this._dry_run = options.dry_run || false;
 }
 
 Xvfb.prototype = {
   start: function(cb) {
-    if (this._dry_run) return setImmediate(()=>{ cb(null, null) });
+    if (this._dry_run)
+      return setImmediate(() => {
+        cb(null, null);
+      });
     if (!this._process) {
       var lockFile = this._lockFile();
 
       this._setDisplayEnvVariable();
 
-      fs.exists(lockFile, function(exists) {
-        var didSpawnFail = false;
-        try {
-          this._spawnProcess(exists, function(e) {
-            didSpawnFail = true;
-            if (cb) cb(e);
-          });
-        } catch (e) {
-          return cb && cb(e);
-        }
+      fs.exists(
+        lockFile,
+        function(exists) {
+          var didSpawnFail = false;
+          try {
+            this._spawnProcess(exists, function(e) {
+              didSpawnFail = true;
+              if (cb) cb(e);
+            });
+          } catch (e) {
+            return cb && cb(e);
+          }
 
-        var totalTime = 0;
-        (function checkIfStarted() {
-          fs.exists(lockFile, function(exists) {
-            if (didSpawnFail) {
-              // When spawn fails, the callback will immediately be called.
-              // So we don't have to check whether the lock file exists.
-              return;
-            }
-            if (exists) {
-              return cb && cb(null, this._process);
-            } else {
-              totalTime += 10;
-              if (totalTime > this._timeout) {
-                return cb && cb(new Error('Could not start Xvfb.'));
-              } else {
-                setTimeout(checkIfStarted.bind(this), 10);
+          var totalTime = 0;
+          (function checkIfStarted() {
+            fs.exists(lockFile, function(exists) {
+              if (didSpawnFail) {
+                // When spawn fails, the callback will immediately be called.
+                // So we don't have to check whether the lock file exists.
+                return;
               }
-            }
-          });
-        }).bind(this)();
-      }.bind(this));
+              if (exists) {
+                return cb && cb(null, this._process);
+              } else {
+                totalTime += 10;
+                if (totalTime > this._timeout) {
+                  return cb && cb(new Error("Could not start Xvfb."));
+                } else {
+                  setTimeout(checkIfStarted.bind(this), 10);
+                }
+              }
+            });
+          }.bind(this)());
+        }.bind(this)
+      );
     }
   },
 
@@ -91,7 +103,7 @@ Xvfb.prototype = {
       var totalTime = 0;
       while (!fs.existsSync(lockFile)) {
         if (totalTime > this._timeout) {
-          throw new Error('Could not start Xvfb.');
+          throw new Error("Could not start Xvfb.");
         }
         usleep(10000);
         totalTime += 10;
@@ -102,7 +114,10 @@ Xvfb.prototype = {
   },
 
   stop: function(cb) {
-    if (this._dry_run) return setImmediate(()=>{ cb(null, null) });
+    if (this._dry_run)
+      return setImmediate(() => {
+        cb(null, null);
+      });
     if (this._process) {
       this._killProcess();
       this._restoreDisplayEnvVariable();
@@ -116,13 +131,13 @@ Xvfb.prototype = {
           } else {
             totalTime += 10;
             if (totalTime > this._timeout) {
-              return cb && cb(new Error('Could not stop Xvfb.'));
+              return cb && cb(new Error("Could not stop Xvfb."));
             } else {
               setTimeout(checkIfStopped.bind(this), 10);
             }
           }
         });
-      }).bind(this)();
+      }.bind(this)());
     } else {
       return cb && cb(null);
     }
@@ -137,7 +152,7 @@ Xvfb.prototype = {
       var totalTime = 0;
       while (fs.existsSync(lockFile)) {
         if (totalTime > this._timeout) {
-          throw new Error('Could not stop Xvfb.');
+          throw new Error("Could not stop Xvfb.");
         }
         usleep(10000);
         totalTime += 10;
@@ -148,13 +163,13 @@ Xvfb.prototype = {
   display: function() {
     if (!this._display) {
       var displayNum = 98;
-    //   var displayNum = 0; // we want display 1
+      //   var displayNum = 0; // we want display 1
       var lockFile;
       do {
         displayNum++;
         lockFile = this._lockFile(displayNum);
       } while (!this._reuse && fs.existsSync(lockFile));
-      this._display = ':' + displayNum;
+      this._display = ":" + displayNum;
     }
     return this._display;
   },
@@ -172,29 +187,36 @@ Xvfb.prototype = {
     var display = this.display();
     if (lockFileExists) {
       if (!this._reuse) {
-        throw new Error('Display ' + display + ' is already in use and the "reuse" option is false.');
+        throw new Error(
+          "Display " +
+            display +
+            ' is already in use and the "reuse" option is false.'
+        );
       }
     } else {
-      var args = [ display ].concat(this._xvfb_args);
-      var argsstr = args.join(' ');
+      var args = [display].concat(this._xvfb_args);
+      var argsstr = args.join(" ");
       // var cmd = 'cd /tmp/pck && ' + this._xvfb_executable + ' ' + argsstr;
-      console.log('Xvfb spawn() args: ', args);
-    //   console.log('Xvfb spawn() args as string: ', argsstr);
+      console.log("Xvfb spawn() args: ", args);
+      //   console.log('Xvfb spawn() args as string: ', argsstr);
       // console.log(`Xvfb exec command: [${cmd}]`);
 
       var newEnv = deepClone(process.env);
-      newEnv.LD_LIBRARY_PATH = `${__dirname}/lib:${newEnv.LD_LIBRARY_PATH}`;
-      console.log('New env: ', newEnv);
+      newEnv.LD_LIBRARY_PATH = `/tmp/lib:${newEnv.LD_LIBRARY_PATH}`;
+      console.log("New env: ", newEnv);
       this._process = spawn(this._xvfb_executable, args, { env: newEnv });
       // this._process = exec(cmd);
-    //   this._process = spawn(this._xvfb_executable, [ display ].concat(this._xvfb_args), { cwd : '/tmp/app' });
-      this._process.stderr.on('data', function(data) {
-        if (!this._silent) {
-          process.stderr.write(data);
-        }
-      }.bind(this));
+      //   this._process = spawn(this._xvfb_executable, [ display ].concat(this._xvfb_args), { cwd : '/tmp/app' });
+      this._process.stderr.on(
+        "data",
+        function(data) {
+          if (!this._silent) {
+            process.stderr.write(data);
+          }
+        }.bind(this)
+      );
       // Bind an error listener to prevent an error from crashing node.
-      this._process.once('error', function(e) {
+      this._process.once("error", function(e) {
         onAsyncSpawnError(e);
       });
     }
@@ -206,42 +228,44 @@ Xvfb.prototype = {
   },
 
   _lockFile: function(displayNum) {
-    displayNum = displayNum || this.display().toString().replace(/^:/, '');
-    return '/tmp/.X' + displayNum + '-lock';
+    displayNum =
+      displayNum ||
+      this.display()
+        .toString()
+        .replace(/^:/, "");
+    return "/tmp/.X" + displayNum + "-lock";
   }
-}
+};
 
 module.exports = Xvfb;
 
-
-function deepClone(obj){
+function deepClone(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
 
-
 if (require.main === module) {
-  var assert = require('assert');
+  var assert = require("assert");
   var xvfb = new Xvfb({ displayNum: 88 });
   xvfb.startSync();
-  console.error('started sync');
+  console.error("started sync");
   xvfb.stopSync();
-  console.error('stopped sync');
+  console.error("stopped sync");
   xvfb.start(function(err) {
     assert.equal(err, null);
-    console.error('started async');
+    console.error("started async");
     xvfb.stop(function(err) {
       assert.equal(err, null);
-      console.error('stopped async');
+      console.error("stopped async");
       xvfb.start(function(err) {
         assert.equal(err, null);
-        console.error('started async');
+        console.error("started async");
         xvfb.stopSync();
-        console.error('stopped sync');
+        console.error("stopped sync");
         xvfb.startSync();
-        console.error('started sync');
+        console.error("started sync");
         xvfb.stop(function(err) {
           assert.equal(err, null);
-          console.error('stopped async');
+          console.error("stopped async");
         });
       });
     });
