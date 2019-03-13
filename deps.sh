@@ -8,9 +8,14 @@ docker run --name cypress-lambda cypress-lambda sleep 1
 
 mkdir -p ./lib
 
-echo 'schlepping /usr/lib64 from the container, just what Xvfb depends on...'
+echo 'schlepping Xvfb’s dependencies...'
 docker run -it cypress-lambda bash -c  'ldd /usr/bin/Xvfb' \
-  | grep /usr/lib64 | cut -d" " -f 3 | tr -d '\r' \
+  | cut -d" " -f 3 | tr -d '\r' \
+  | xargs -I{} docker cp -L cypress-lambda:{} ./lib
+
+echo 'and Cypress’s dependencies...'
+docker run -it cypress-lambda bash -c  'ldd /root/.cache/Cypress/3.1.5/Cypress/Cypress' \
+  | cut -d" " -f 3 | tr -d '\r' \
   | xargs -I{} docker cp -L cypress-lambda:{} ./lib
 
 echo 'and node modules and Xvfb...'
@@ -27,6 +32,11 @@ echo 'patching Xvfb binary, yolo...'
 position=$(strings -t d Xvfb | grep xkbcomp | grep xkm | cut -d' ' -f1)
 # this string is padded so that it matches the same length of the string above
 echo -n 'R="%X%X%d%X%X%X%X%X%X" /bin/cp /var/task/default.xkm /tmp/%s.xkm   ' | dd bs=1 of=Xvfb seek="$position" conv=notrunc
+
+echo 'and finally, the cypress binary...'
+docker cp -L cypress-lambda:/root/.cache/Cypress/3.1.5/Cypress/ ./tmp
+cp -R tmp/* lib/
+rm -rf tmp
 
 
 echo 'done'

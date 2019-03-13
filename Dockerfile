@@ -10,13 +10,15 @@ COPY eltool.sh .
 RUN ./eltool.sh dev-tools 
 RUN ./eltool.sh dist-deps
 RUN ./eltool.sh centos-deps
-
-# There's still a number of libraries which need to compile from source
 RUN ./eltool.sh gconf-compile gconf-install 
 RUN ./eltool.sh pixbuf-compile pixbuf-install
 RUN ./eltool.sh gtk-compile  # this will take 3 minutes on t2.small instance
 RUN ./eltool.sh gtk-install 
 RUN ./eltool.sh xvfb-install 
+
+# provides libasound...from:
+# github.com/cypress-io/cypress-docker-images/blob/15c5bf875454a289e20587b192c4e4322787956c/base/centos7/Dockerfile#L1
+RUN yum install -y alsa-lib*
 
 COPY package.json .
 COPY package-lock.json .
