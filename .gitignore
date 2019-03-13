@@ -1,4 +1,4 @@
-node_modules/*
-lib/*
-lib.tar.gz
-Xvfb
+lambda/node_modules/*
+lambda/lib/*
+lambda/lib.tar.gz
+lambda/Xvfb
