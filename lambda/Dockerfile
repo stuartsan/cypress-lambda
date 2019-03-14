@@ -11,7 +11,7 @@ RUN ./eltool.sh dist-deps
 RUN ./eltool.sh centos-deps
 RUN ./eltool.sh gconf-compile gconf-install 
 RUN ./eltool.sh pixbuf-compile pixbuf-install
-RUN ./eltool.sh gtk-compile  # this will take 3 minutes on t2.small instance
+RUN ./eltool.sh gtk-compile
 RUN ./eltool.sh gtk-install 
 RUN ./eltool.sh xvfb-install 
 
