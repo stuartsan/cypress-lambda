@@ -1,7 +1,6 @@
 const Xvfb = require("xvfb.js");
 const cypress = require("cypress");
 const child_process = require("child_process");
-const mkdirp = require('mkdirp');
 
 process.env.CYPRESS_RUN_BINARY = "/tmp/lib/Cypress";
 process.env.CYPRESS_CACHE_FOLDER = "/tmp";
@@ -16,7 +15,22 @@ let libExtracted = false;
 
 exports.handler = function(event, context) {
   if (!libExtracted) {
-    child_process.execSync("tar xzf ./lib.tar.gz -C /tmp");
+    child_process.execSync(
+      'rm -rf /tmp/* && tar xzf lib.tar.gz -C /tmp',
+      {stdio: 'inherit'}
+    );
+    child_process.execSync(
+      'cp /var/task/cypress.json /tmp/cypress.json',
+      {stdio: 'inherit'}
+    );
+    child_process.execSync(
+      'cp -R /var/task/cypress /tmp',
+      {stdio: 'inherit'}
+    );
+    child_process.execSync(
+      'mkdir /tmp/shm',
+      {stdio: 'inherit'}
+    );
     libExtracted = true;
   }
 
@@ -29,13 +43,16 @@ exports.handler = function(event, context) {
 
     cypress
       .run({
-        spec: "./cypress/integration/sample_spec.js",
+        spec: "/tmp/cypress/integration/sample_spec.js",
         env: {
-          // DEBUG: "cypress:*"
+           DEBUG: "cypress:*",
+           XDG_CONFIG_HOME: '/tmp',
         },
         config: {
           video: false
-        }
+        },
+        record: false,
+        project: '/tmp', 
       })
       .then(results => {
         console.log(results);

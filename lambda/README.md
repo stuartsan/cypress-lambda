@@ -4,6 +4,8 @@ The first step is getting a single cypress spec running on Amazon Linux.
 
 Couldn'ta done this without https://github.com/dimkir/nightmare-lambda-tutorial.
 
+And https://medium.com/@marco.luethy/running-headless-chrome-on-aws-lambda-fa82ad33a9eb
+
 ## First install dependencies
 
 We copy the general approach from https://gist.github.com/dimkir/f4afde77366ff041b66d2252b45a13db but with docker locally, to get all the stuff pretty much working INSIDE the container. We use https://github.com/lambci/docker-lambda cause it replicates the live AWS env. IIRC even sam-local uses it.

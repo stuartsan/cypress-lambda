@@ -2,3 +2,6 @@ lambda/node_modules/*
 lambda/lib/*
 lambda/lib.tar.gz
 lambda/Xvfb
+lambda.zip
+terraform*
+.terraform*

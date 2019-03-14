@@ -4,8 +4,7 @@ WORKDIR /app
 
 RUN yum -y install wget
 
-# This is probably pretty heavy handed, adding some shit that is electron-specific
-# that I don't really care about. But ok sure!
+# https://gist.github.com/dimkir/f4afde77366ff041b66d2252b45a13db
 COPY eltool.sh .
 RUN ./eltool.sh dev-tools 
 RUN ./eltool.sh dist-deps
@@ -33,5 +32,29 @@ RUN ./link.sh
 # https://unix.stackexchange.com/a/315172 LMAO
 COPY xkb-compile.sh .
 RUN ./xkb-compile.sh
+
+# put everything in lib
+RUN mkdir lib
+
+RUN ldd /usr/bin/Xvfb | cut -d' ' -f 3 | tr -d '\r' \
+  | xargs -I{} cp -R -L {} ./lib/
+RUN ldd /root/.cache/Cypress/3.1.5/Cypress/Cypress | cut -d' ' -f 3 | tr -d '\r' \
+  | xargs -I{} cp -R -L {} ./lib/
+RUN cp -L -R /usr/share/X11/xkb ./lib/
+RUN cp /app/default.xkm ./lib/
+RUN cp -L -R /root/.cache/Cypress/3.1.5/Cypress/* ./lib/
+
+# we need some node prune up in here
+# gotta get lib under 512mb!
+RUN curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash -s -- -b /usr/local/bin
+RUN node-prune lib/resources/app/packages/server
+RUN node-prune lib/resources/app/packages/https-proxy
+RUN node-prune lib/resources/app/packages/electron
+
+COPY patch.sh .
+RUN ./patch.sh
+
+# tar it up
+RUN GZIP=-9 tar cvzf lib.tar.gz ./lib
 
 CMD npx cypress run --config video=false
