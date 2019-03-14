@@ -15,22 +15,16 @@ let libExtracted = false;
 
 exports.handler = function(event, context) {
   if (!libExtracted) {
-    child_process.execSync(
-      'rm -rf /tmp/* && tar xzf lib.tar.gz -C /tmp',
-      {stdio: 'inherit'}
-    );
-    child_process.execSync(
-      'cp /var/task/cypress.json /tmp/cypress.json',
-      {stdio: 'inherit'}
-    );
-    child_process.execSync(
-      'cp -R /var/task/cypress /tmp',
-      {stdio: 'inherit'}
-    );
-    child_process.execSync(
-      'mkdir /tmp/shm',
-      {stdio: 'inherit'}
-    );
+    child_process.execSync("rm -rf /tmp/* && tar xzf lib.tar.gz -C /tmp", {
+      stdio: "inherit"
+    });
+    child_process.execSync("cp /var/task/cypress.json /tmp/cypress.json", {
+      stdio: "inherit"
+    });
+    child_process.execSync("cp -R /var/task/cypress /tmp", {
+      stdio: "inherit"
+    });
+    child_process.execSync("mkdir /tmp/shm", { stdio: "inherit" });
     libExtracted = true;
   }
 
@@ -45,14 +39,16 @@ exports.handler = function(event, context) {
       .run({
         spec: "/tmp/cypress/integration/sample_spec.js",
         env: {
-           DEBUG: "cypress:*",
-           XDG_CONFIG_HOME: '/tmp',
+          DEBUG: "cypress:*",
+          XDG_CONFIG_HOME: "/tmp"
         },
         config: {
           video: false
         },
         record: false,
-        project: '/tmp', 
+        project: "/tmp"
+        // This also works!
+        // headed: true
       })
       .then(results => {
         console.log(results);

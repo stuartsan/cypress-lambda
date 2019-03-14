@@ -12,11 +12,11 @@
 // the project's config changing)
 
 module.exports = (on, config) => {
-  on('before:browser:launch', (browser = {}, args) => {
-    if (browser.name === 'electron') {
-        args['disable-gpu'] = true;
-        args['disable-d3d11'] = true;
-        return args
+  on("before:browser:launch", (browser = {}, args) => {
+    if (browser.name === "electron") {
+      args["disable-gpu"] = true;
+      args["disable-d3d11"] = true;
+      return args;
     }
-  })
-}
+  });
+};
