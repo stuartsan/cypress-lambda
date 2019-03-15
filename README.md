@@ -39,6 +39,7 @@ docker run --rm -v "$PWD":/var/task lambci/lambda:nodejs8.10
 Back in the project root:
 
 ```
+touch lambda.zip
 terraform init
 terraform apply
 ```
