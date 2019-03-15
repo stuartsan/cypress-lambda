@@ -1,6 +1,7 @@
 lambda/node_modules/*
 lambda/lib/*
 lambda/lib.tar.gz
+lambda/foo
 lambda/Xvfb
 lambda.zip
 terraform*

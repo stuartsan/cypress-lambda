@@ -41,5 +41,3 @@ RUN ./patch.sh
 
 # tar it up
 RUN GZIP=-9 tar cvzf lib.tar.gz ./lib
-
-CMD npx cypress run --config video=false
