@@ -33,23 +33,8 @@ RUN ./link.sh
 COPY xkb-compile.sh .
 RUN ./xkb-compile.sh
 
-# put everything in lib
-RUN mkdir lib
-
-RUN ldd /usr/bin/Xvfb | cut -d' ' -f 3 | tr -d '\r' \
-  | xargs -I{} cp -R -L {} ./lib/
-RUN ldd /root/.cache/Cypress/3.1.5/Cypress/Cypress | cut -d' ' -f 3 | tr -d '\r' \
-  | xargs -I{} cp -R -L {} ./lib/
-RUN cp -L -R /usr/share/X11/xkb ./lib/
-RUN cp /app/default.xkm ./lib/
-RUN cp -L -R /root/.cache/Cypress/3.1.5/Cypress/* ./lib/
-
-# we need some node prune up in here
-# gotta get lib under 512mb!
-RUN curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash -s -- -b /usr/local/bin
-RUN node-prune lib/resources/app/packages/server
-RUN node-prune lib/resources/app/packages/https-proxy
-RUN node-prune lib/resources/app/packages/electron
+COPY pack-lib.sh .
+RUN ./pack-lib.sh
 
 COPY patch.sh .
 RUN ./patch.sh
