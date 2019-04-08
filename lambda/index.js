@@ -1,6 +1,7 @@
 const Xvfb = require("xvfb.js");
 const cypress = require("cypress");
 const child_process = require("child_process");
+const fs = require('fs');
 
 process.env.CYPRESS_RUN_BINARY = "/tmp/lib/Cypress";
 process.env.CYPRESS_CACHE_FOLDER = "/tmp";
@@ -24,6 +25,9 @@ exports.handler = function(event, context) {
     child_process.execSync("cp -R /var/task/cypress /tmp", {
       stdio: "inherit"
     });
+    child_process.execSync("ln -s /var/task/node_modules /tmp/node_modules", {
+      stdio: "inherit"
+    });
     child_process.execSync("mkdir /tmp/shm", { stdio: "inherit" });
     libExtracted = true;
   }
@@ -37,7 +41,7 @@ exports.handler = function(event, context) {
 
     cypress
       .run({
-        spec: "/tmp/cypress/integration/sample_spec.js",
+        spec: event.cypressSpec || '/tmp/cypress/integreation/**/*.spec.js',
         env: {
           DEBUG: "cypress:*",
           XDG_CONFIG_HOME: "/tmp"
@@ -46,16 +50,16 @@ exports.handler = function(event, context) {
           video: false
         },
         record: false,
-        project: "/tmp"
+        project: "/tmp",
+        reporter: 'mochawesome',
         // This also works!
         // headed: true
       })
       .then(results => {
-        console.log(results);
-        done(null, results);
+        const report = fs.readFileSync('/tmp/mochawesome-report/mochawesome.json').toString()
+        done(null, report);
       })
       .catch(err => {
-        console.error(err);
         done(err);
       });
   });

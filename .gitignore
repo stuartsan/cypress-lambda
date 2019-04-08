@@ -6,3 +6,8 @@ lambda/Xvfb
 lambda.zip
 terraform*
 .terraform*
+deployed_lambda_arn
+node_modules/*
+reports/*
+mochawesome-report/*
+mochawesome.json

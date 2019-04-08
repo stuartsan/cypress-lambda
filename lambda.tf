@@ -76,3 +76,8 @@ resource "aws_iam_role_policy" "lambda" {
 }
 EOF
 }
+
+resource "local_file" "lambda_arn" {
+  content  = "${aws_lambda_function.cypress_runner.arn}"
+  filename = "deployed_lambda_arn"
+}
