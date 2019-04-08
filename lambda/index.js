@@ -41,7 +41,7 @@ exports.handler = function(event, context) {
 
     cypress
       .run({
-        spec: event.cypressSpec || '/tmp/cypress/integreation/**/*.spec.js',
+        spec: event.cypressSpec || '/tmp/cypress/integration/**/*.spec.js',
         env: {
           DEBUG: "cypress:*",
           XDG_CONFIG_HOME: "/tmp"
