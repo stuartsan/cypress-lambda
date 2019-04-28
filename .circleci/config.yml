@@ -31,9 +31,9 @@ jobs:
         name: deploy lambda layer with terraform
         command: make deploy
     - persist_to_workspace:
-      root: ~/
-      paths:
-        - project
+        root: ~/
+        paths:
+          - project
               
   invoke_layer:
     <<: *defaults
