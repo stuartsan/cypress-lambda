@@ -2,7 +2,7 @@
 
 context('Aliasing', () => {
   beforeEach(() => {
-    cy.visit('https://condescending-mestorf-ed4924.netlify.com/commands/aliasing')
+    cy.visit('https://kitchensink.netlify.com/commands/aliasing')
   })
 
   it('.as() - alias a DOM element for later use', () => {

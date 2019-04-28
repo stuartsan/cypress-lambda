@@ -1,11 +1,9 @@
 provider "aws" {
-  region                  = "us-west-2"
   shared_credentials_file = "~/.aws/credentials"
-  profile                 = "default"
 }
 
 resource "aws_s3_bucket" "cypress_lambda" {
-  bucket = "cypress-lambda"
+  bucket = "cypress-lambda-you54f"
   acl    = "private"
 }
 

@@ -2,7 +2,7 @@
 
 context('Assertions', () => {
   beforeEach(() => {
-    cy.visit('https://condescending-mestorf-ed4924.netlify.com/commands/assertions')
+    cy.visit('https://kitchensink.netlify.com/commands/assertions')
   })
 
   describe('Implicit Assertions', () => {

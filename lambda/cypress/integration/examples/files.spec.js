@@ -2,7 +2,7 @@
 
 context('Files', () => {
   beforeEach(() => {
-    cy.visit('https://condescending-mestorf-ed4924.netlify.com/commands/files')
+    cy.visit('https://kitchensink.netlify.com/commands/files')
   })
   it('cy.fixture() - load a fixture', () => {
     // https://on.cypress.io/fixture

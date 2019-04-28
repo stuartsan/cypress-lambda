@@ -1,0 +1,55 @@
+version: 2.1
+
+defaults: &defaults
+  machine:
+      docker_layer_caching: true
+  environment:
+    TERM: xterm
+
+jobs:
+  build_layer:
+    <<: *defaults      
+    steps:
+    - checkout
+    - run:
+        name: build lambda layer
+        command: cd lambda && make build
+    - run:
+        name: extract deps from image
+        command: cd lambda && make extract_deps
+    - persist_to_workspace:
+        root: ~/
+        paths:
+        - project
+
+  deploy_layer:
+    <<: *defaults
+    steps:
+    - attach_workspace:
+        at: ~/  
+    - run:
+        name: deploy lambda layer with terraform
+        command: make deploy
+    - persist_to_workspace:
+      root: ~/
+      paths:
+      - project
+              
+  invoke_layer:
+    <<: *defaults
+    steps:
+    - attach_workspace:
+        at: ~/  
+    - run:
+        name: deploy lambda layer with terraform
+        command: make deploy
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build_layer
+      - deploy_layer:
+          requires:
+            - build_layer
+      - invoke_layer

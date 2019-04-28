@@ -2,7 +2,7 @@
 
 context('Viewport', () => {
   beforeEach(() => {
-    cy.visit('https://condescending-mestorf-ed4924.netlify.com/commands/viewport')
+    cy.visit('https://kitchensink.netlify.com/commands/viewport')
   })
 
   it('cy.viewport() - set the viewport size and dimension', () => {

@@ -2,7 +2,7 @@
 
 context('Network Requests', () => {
   beforeEach(() => {
-    cy.visit('https://condescending-mestorf-ed4924.netlify.com/commands/network-requests')
+    cy.visit('https://kitchensink.netlify.com/commands/network-requests')
   })
 
   // Manage AJAX / XHR requests in your app

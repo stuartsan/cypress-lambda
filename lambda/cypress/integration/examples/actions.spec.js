@@ -2,7 +2,7 @@
 
 // context('Actions', () => {
 //   beforeEach(() => {
-//     cy.visit('https://condescending-mestorf-ed4924.netlify.com/commands/actions')
+//     cy.visit('https://kitchensink.netlify.com/commands/actions')
 //   })
 // 
 //   // https://on.cypress.io/interacting-with-elements

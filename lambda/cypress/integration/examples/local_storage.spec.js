@@ -2,7 +2,7 @@
 
 context('Local Storage', () => {
   beforeEach(() => {
-    cy.visit('https://condescending-mestorf-ed4924.netlify.com/commands/local-storage')
+    cy.visit('https://kitchensink.netlify.com/commands/local-storage')
   })
   // Although local storage is automatically cleared
   // in between tests to maintain a clean state

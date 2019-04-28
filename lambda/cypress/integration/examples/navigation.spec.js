@@ -2,7 +2,7 @@
 
 context('Navigation', () => {
   beforeEach(() => {
-    cy.visit('https://condescending-mestorf-ed4924.netlify.com')
+    cy.visit('https://kitchensink.netlify.com')
     cy.get('.navbar-nav').contains('Commands').click()
     cy.get('.dropdown-menu').contains('Navigation').click()
   })
@@ -42,7 +42,7 @@ context('Navigation', () => {
 
     /* eslint-disable no-unused-vars */
     // Pass options to the visit
-    cy.visit('https://condescending-mestorf-ed4924.netlify.com/commands/navigation', {
+    cy.visit('https://kitchensink.netlify.com/commands/navigation', {
       timeout: 50000, // increase total time for the visit to resolve
       onBeforeLoad (contentWindow) {
         // contentWindow is the remote page's window object

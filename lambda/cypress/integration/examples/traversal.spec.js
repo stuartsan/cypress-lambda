@@ -2,7 +2,7 @@
 
 context('Traversal', () => {
   beforeEach(() => {
-    cy.visit('https://condescending-mestorf-ed4924.netlify.com/commands/traversal')
+    cy.visit('https://kitchensink.netlify.com/commands/traversal')
   })
 
   it('.children() - get child DOM elements', () => {

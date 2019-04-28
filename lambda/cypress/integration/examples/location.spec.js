@@ -2,7 +2,7 @@
 
 context('Location', () => {
   beforeEach(() => {
-    cy.visit('https://condescending-mestorf-ed4924.netlify.com/commands/location')
+    cy.visit('https://kitchensink.netlify.com/commands/location')
   })
 
   it('cy.hash() - get the current URL hash', () => {
@@ -14,10 +14,10 @@ context('Location', () => {
     // https://on.cypress.io/location
     cy.location().should((location) => {
       expect(location.hash).to.be.empty
-      expect(location.href).to.eq('https://condescending-mestorf-ed4924.netlify.com/commands/location')
+      expect(location.href).to.eq('https://kitchensink.netlify.com/commands/location')
       // expect(location.host).to.eq('localhost:8080')
       // expect(location.hostname).to.eq('localhost')
-      expect(location.origin).to.eq('https://condescending-mestorf-ed4924.netlify.com')
+      expect(location.origin).to.eq('https://kitchensink.netlify.com')
       expect(location.pathname).to.eq('/commands/location')
       // expect(location.port).to.eq('8080')
       // expect(location.protocol).to.eq('http:')
@@ -27,6 +27,6 @@ context('Location', () => {
 
   it('cy.url() - get the current URL', () => {
     // https://on.cypress.io/url
-    cy.url().should('eq', 'https://condescending-mestorf-ed4924.netlify.com/commands/location')
+    cy.url().should('eq', 'https://kitchensink.netlify.com/commands/location')
   })
 })

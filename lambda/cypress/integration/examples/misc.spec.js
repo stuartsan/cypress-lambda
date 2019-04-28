@@ -2,7 +2,7 @@
 
 context('Misc', () => {
   beforeEach(() => {
-    cy.visit('https://condescending-mestorf-ed4924.netlify.com/commands/misc')
+    cy.visit('https://kitchensink.netlify.com/commands/misc')
   })
 
   it('.end() - end the command chain', () => {

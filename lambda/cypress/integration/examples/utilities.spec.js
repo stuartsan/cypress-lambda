@@ -2,7 +2,7 @@
 
 context('Utilities', () => {
   beforeEach(() => {
-    cy.visit('https://condescending-mestorf-ed4924.netlify.com/utilities')
+    cy.visit('https://kitchensink.netlify.com/utilities')
   })
 
   it('Cypress._ - call a lodash method', () => {

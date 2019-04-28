@@ -2,7 +2,7 @@ const fs = require("fs");
 const AWS = require("aws-sdk");
 const glob = require("glob");
 
-const lambda = new AWS.Lambda({ region: "us-west-2" });
+const lambda = new AWS.Lambda({ region: "eu-west-2" });
 
 const lambdaArn = fs.readFileSync("./deployed_lambda_arn").toString();
 
