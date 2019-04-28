@@ -20,7 +20,7 @@ jobs:
     - persist_to_workspace:
         root: ~/
         paths:
-        - project
+          - project
 
   deploy_layer:
     <<: *defaults
@@ -33,7 +33,7 @@ jobs:
     - persist_to_workspace:
       root: ~/
       paths:
-      - project
+        - project
               
   invoke_layer:
     <<: *defaults
