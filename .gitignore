@@ -4,8 +4,7 @@ lambda/lib.tar.gz
 lambda/foo
 lambda/Xvfb
 lambda.zip
-terraform*
-.terraform*
+lambda/.serverless
 deployed_lambda_arn
 node_modules/*
 reports/*

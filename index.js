@@ -4,7 +4,7 @@ const glob = require("glob");
 
 const lambda = new AWS.Lambda({ region: "eu-west-2" });
 
-const lambdaArn = fs.readFileSync("./deployed_lambda_arn").toString();
+const lambdaArn = process.env.deployed_lambda_arn;
 
 async function main() {
   const files = glob

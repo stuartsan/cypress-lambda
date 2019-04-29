@@ -1,0 +1,36 @@
+service: cypress-serverless
+
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  profile: saf
+  region: eu-west-2
+  # environment:
+  #   # API_GATEWAY_BASE_PATH: ${self:custom.customDomain.basePath}
+  # iamRoleStatements:
+  # - Effect: Allow
+  #   Action:
+  #     - s3:PutObject
+  #     - s3:GetObject
+  #   Resource: "arn:aws:s3:::${self:custom.bucket}/*"
+
+# layers:
+#   cypresslayer:
+#     path: .
+#     description: A Layer to hold a custom cypress runtime
+#     compatibleRuntimes:
+#       - nodejs8.10
+
+functions:
+  cypress-runner:
+    timeout: 90
+    handler: index.handler
+    memory_size: 3008
+#     events:
+#       - s3: ${self:custom.bucket}
+#     # layers:
+#     #   - {Ref: Cypress-lambda-you54f-serverlessLambdaLayer}
+
+# custom:
+#   bucket: ${env:BUCKET, 'cypress-lambda-you54f-serverless'}
