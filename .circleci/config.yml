@@ -29,7 +29,7 @@ jobs:
         at: ~/  
     - run:
         name: deploy lambda layer with terraform
-        command: cd lambda && sls deploy
+        command: npm i && cd lambda && sls deploy
     - persist_to_workspace:
         root: ~/
         paths:
@@ -38,8 +38,9 @@ jobs:
   invoke_layer:
     <<: *defaults
     steps:
-    - attach_workspace:
-        at: ~/  
+    # - attach_workspace:
+    #     at: ~/ 
+    - checkout 
     - run:
         name: install deps
         command: npm i
