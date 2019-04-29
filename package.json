@@ -9,7 +9,7 @@
     "merge-reports": "npx mochawesome-merge --reportDir reports > mochawesome-report/mochawesome.json",
     "generate-html-report": "npx mochawesome-report-generator mochawesome-report/mochawesome.json",
     "clean-reports": "rm -rf reports && mkdir reports",
-    "slack": "npx cypress-slack-reporter --report-dir mochawesome-report --ci-provider none"
+    "slack": "npx cypress-slack-reporter --report-dir mochawesome-report"
   },
   "repository": {
     "type": "git",

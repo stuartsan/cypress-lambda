@@ -48,6 +48,9 @@ jobs:
     - run:
         name: invoke function and run tests
         command: npm test
+    - run:
+        name: report
+        command: npm report
 
 workflows:
   version: 2
