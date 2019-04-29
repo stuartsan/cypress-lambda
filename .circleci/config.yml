@@ -36,10 +36,11 @@ jobs:
           - project
               
   invoke_layer:
-    <<: *defaults
-    steps:
-    # - attach_workspace:
-    #     at: ~/ 
+    docker:
+    - image: circleci/node:8.15
+    environment:
+      TERM: xterm
+    steps: 
     - checkout 
     - run:
         name: install deps
